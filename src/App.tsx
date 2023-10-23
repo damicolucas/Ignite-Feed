@@ -1,9 +1,19 @@
 import { Header } from './components/Header/Header'
 import './global.css'
+import styles from './App.module.css'
+import { Sidebar } from './components/Sidebar/Sidebar'
 
 export function App() {
   return (
-    <Header />
+    <div> 
+      <Header />
+      <div className={styles.wrapper}>
+        <Sidebar />
+        <main>
+          posts
+        </main>
+      </div>
+    </div>
   )
 }
 
