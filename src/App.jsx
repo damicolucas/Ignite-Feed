@@ -15,25 +15,11 @@ const posts = [
     },
     publishedAt: new Date('2023-11-23 08:52:00'),
     content: [
-      { type: 'paragraph', content: 'Fala galeraa 👋' },
-      { type: 'paragraph', content: 'Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀' },
-      { type: 'link', content: 'jane.design/doctorcare' },
+      { type: 'p', content: 'Fala galeraa 👋' },
+      { type: 'p', content: 'Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀' },
+      { type: 'a', content: 'jane.design/doctorcare', href: 'https://www.jane.design/doctorcare' },
     ]
   },
-  {
-    id: 2,
-    author: {
-      avatarUrl: "https://github.com/damicolucas.png",
-      name: "Lucas D'Amico",
-      role: 'Front-end developer'
-    },
-    publishedAt: new Date('2023-11-23 08:52:00'),
-    content: [
-      { type: 'paragraph', content: 'Fala galeraa 👋' },
-      { type: 'paragraph', content: 'Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀' },
-      { type: 'link', content: 'jane.design/doctorcare' },
-    ]
-  }
 ]
 export function App() {
   return (
@@ -42,9 +28,9 @@ export function App() {
       <div className={styles.wrapper}>
         <Sidebar />
         <main>
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <Post
-              key={index}
+              key={post.id}
               author={post.author}
               content={post.content}
               publishedAt={post.publishedAt}
