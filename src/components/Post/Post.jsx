@@ -14,6 +14,8 @@ export function Post({ author, content, publishedAt }) {
     addSuffix: true,
   });
 
+  const isNewCommentEmpty = newComment.length === 0
+
   const contentTypes = {
     p: (child) => <p key={child.content}>{child.content}</p>,
     a: (child) => <a key={child.content} href={child.href}>{child.content}</a>,
@@ -26,13 +28,19 @@ export function Post({ author, content, publishedAt }) {
   }
 
   function handleNewCommentChange (event) {
+    event.target.setCustomValidity('')
     setNewComment(event.target.value)
+  }
+  
+  function handleNewCommentInvalid (event) {
+    event.target.setCustomValidity('Esse campo é obrigatório')
   }
 
   function deleteComment (commentToDelete) {
     const commentsWithoutDeletedOne = comments.filter(comment => comment !== commentToDelete)
     setComments(commentsWithoutDeletedOne)
   }
+
 
   return (
     <article className={styles.post}>
@@ -51,13 +59,24 @@ export function Post({ author, content, publishedAt }) {
       <div className={styles.content}> 
         {content.map((line) => contentTypes[line.type](line))}
       </div>
+      
       <form className={styles.comentForm} onSubmit={handleCreateNewComment}>
         <strong>Deixe seu feedback</strong>
-        <textarea name='newComment' placeholder='Deixe um comentário' onChange={handleNewCommentChange} value={newComment} />
+
+        <textarea 
+          name='newComment' 
+          placeholder='Deixe um comentário'
+          onChange={handleNewCommentChange}
+          value={newComment} 
+          required 
+          onInvalid={handleNewCommentInvalid}
+        />
+        
         <footer>
-          <button type='submit'>Publicar</button>
+          <button type='submit' disabled={isNewCommentEmpty}>Publicar</button>
         </footer>
       </form>
+
       <div className={styles.commentList}>
         {comments.map((comment) => <Comment content={comment} key={comment} onDeleteComment={deleteComment} />)}
       </div>
