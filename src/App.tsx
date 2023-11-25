@@ -3,9 +3,9 @@ import styles from './App.module.css'
 
 import { Header } from './components/Header/Header'
 import { Sidebar } from './components/Sidebar/Sidebar'
-import { Post } from './components/Post/Post'
+import { IPost, Post } from './components/Post/Post'
 
-const posts = [
+const posts: IPost[] = [
   {
     id: 1,
     author: {
@@ -31,9 +31,7 @@ export function App() {
           {posts.map((post) => (
             <Post
               key={post.id}
-              author={post.author}
-              content={post.content}
-              publishedAt={post.publishedAt}
+              post={post}
             />
           ))}
         </main>

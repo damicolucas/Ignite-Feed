@@ -14,15 +14,20 @@ interface IAuthor {
 interface IContent {
   type: 'p' | 'a';
   content: string;
+  href?: string
 }
 
-interface PostProps {
+export interface IPost {
   author: IAuthor;
   content: IContent[];
   publishedAt: Date;
 }
 
-export function Post({ author, content, publishedAt } : PostProps) {
+interface PostProps {
+  post: IPost;
+}
+
+export function Post({ post : { author, content, publishedAt }} : PostProps) {
   const [comments, setComments] = useState(['Muito bom, parabéns!!'])
   const [newComment, setNewComment] = useState('')
   const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR })
