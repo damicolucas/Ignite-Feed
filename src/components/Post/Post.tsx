@@ -1,13 +1,30 @@
-import React from 'react'
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from 'react'
 import styles from './Post.module.css'
 import { Comment } from '../Comment/Comment'
 import { Avatar } from '../Avatar/Avatar'
 import { format, formatDistanceToNow } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 
-export function Post({ author, content, publishedAt }) {
-  const [comments, setComments] = React.useState(['Muito bom, parabéns!!'])
-  const [newComment, setNewComment] = React.useState('')
+interface IAuthor {
+  name: string;
+  role: string;
+  avatarUrl: string;
+}
+
+interface IContent {
+  type: 'p' | 'a';
+  content: string;
+}
+
+interface PostProps {
+  author: IAuthor;
+  content: IContent[];
+  publishedAt: Date;
+}
+
+export function Post({ author, content, publishedAt } : PostProps) {
+  const [comments, setComments] = useState(['Muito bom, parabéns!!'])
+  const [newComment, setNewComment] = useState('')
   const publishedDateFormated = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", { locale: ptBR })
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
@@ -21,22 +38,22 @@ export function Post({ author, content, publishedAt }) {
     a: (child) => <a key={child.content} href={child.href}>{child.content}</a>,
   }
 
-  function handleCreateNewComment (event) {
+  function handleCreateNewComment (event: FormEvent) {
     event.preventDefault()
     setComments(prev => [...prev, newComment])
     setNewComment('')
   }
 
-  function handleNewCommentChange (event) {
+  function handleNewCommentChange (event: ChangeEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity('')
     setNewComment(event.target.value)
   }
   
-  function handleNewCommentInvalid (event) {
+  function handleNewCommentInvalid (event: InvalidEvent<HTMLTextAreaElement>) {
     event.target.setCustomValidity('Esse campo é obrigatório')
   }
 
-  function deleteComment (commentToDelete) {
+  function deleteComment (commentToDelete: string) {
     const commentsWithoutDeletedOne = comments.filter(comment => comment !== commentToDelete)
     setComments(commentsWithoutDeletedOne)
   }
